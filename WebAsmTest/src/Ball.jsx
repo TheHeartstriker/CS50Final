@@ -12,15 +12,16 @@ const loadWasm = async (canvas) => {
       },
     },
   });
-
-  //wasm._setArguments(200, 200);
-
   return wasm;
 };
 function Ball() {
   const [wasm, setWasm] = useState(null);
   const canvasRef = useRef(null);
   const isLoaded = useRef(false);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   useEffect(() => {
     const fetchWasm = async () => {
@@ -31,7 +32,26 @@ function Ball() {
       }
     };
     fetchWasm();
+    //    wasm?._setArguments(1500, 1500);
   }, [wasm]);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    });
+
+    return () => {
+      window.removeEventListener("resize", () => {});
+    };
+  }, []);
+
+  useEffect(() => {
+    if (wasm) {
+      wasm._setArguments(window.innerHeight, window.innerWidth);
+      console.log("window.innerHeight: ", window.innerHeight);
+      console.log("window inner width: ", window.innerWidth);
+    }
+  }, [windowSize]);
 
   return (
     <div>

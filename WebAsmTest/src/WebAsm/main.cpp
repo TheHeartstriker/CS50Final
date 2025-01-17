@@ -9,8 +9,8 @@
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
 
-int Winheight = 1500;
-int Winwidth = 1500;
+int Winheight;
+int Winwidth;
 
 void render();
 
