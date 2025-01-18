@@ -2,7 +2,7 @@
 EMCC = emcc
 
 # Source files
-SRC = main.cpp AniSrc/Render.cpp AniSrc/Shapes/Shapes.cpp
+SRC = main.cpp AniSrc/Converge/Render.cpp AniSrc/Shapes/Shapes.cpp AniSrc/SpaceS/SpaceS.cpp
 
 # Output file
 OUT = sdl_app.mjs

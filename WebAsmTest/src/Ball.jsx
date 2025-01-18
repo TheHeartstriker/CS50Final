@@ -18,6 +18,7 @@ function Ball() {
   const [wasm, setWasm] = useState(null);
   const canvasRef = useRef(null);
   const isLoaded = useRef(false);
+  const [AniType, setAniType] = useState(2);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -46,7 +47,7 @@ function Ball() {
   //Set arguments for the wasm module
   useEffect(() => {
     if (wasm) {
-      wasm._setArguments(window.innerHeight, window.innerWidth);
+      wasm._setArguments(window.innerHeight, window.innerWidth, AniType);
     }
   }, [windowSize, wasm]);
 

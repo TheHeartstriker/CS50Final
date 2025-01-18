@@ -4,33 +4,42 @@
 #include <cmath>
 #include <iostream>
 
-#include "AniSrc/Render.h"
+#include "AniSrc/Converge/Render.h"
+#include "AniSrc/SpaceS/SpaceS.h"
 
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
 
 int Winheight;
 int Winwidth;
+int TypeAni;
 
 void render();
 
 extern "C" {
 EMSCRIPTEN_KEEPALIVE
-void setArguments(int arg1, int arg2) {
-  Winheight = arg1;
-  Winwidth = arg2;
-
-  // Update the window size
-  SDL_SetWindowSize(window, Winwidth, Winheight);
+void setArguments(int arg1, int arg2, int arg3) {
+  if (Winheight != arg1 || Winwidth != arg2) {
+    Winheight = arg1;
+    Winwidth = arg2;
+    // Update the window size
+    SDL_SetWindowSize(window, Winwidth, Winheight);
+  }
+  if (TypeAni != arg3) {
+    TypeAni = arg3;
+    render();
+  }
 }
 }
 
 void render() {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
-
-  MainCall(renderer);
-
+  if (TypeAni == 1) {
+    MainConvergeCall(renderer);
+  } else {
+    MainSpacesCall(renderer);
+  }
   SDL_RenderPresent(renderer);
 }
 

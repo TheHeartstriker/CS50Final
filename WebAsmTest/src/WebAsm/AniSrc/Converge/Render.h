@@ -3,6 +3,6 @@
 
 #include <SDL2/SDL.h>
 
-void MainCall(SDL_Renderer* renderer);
+void MainConvergeCall(SDL_Renderer* renderer);
 
 #endif

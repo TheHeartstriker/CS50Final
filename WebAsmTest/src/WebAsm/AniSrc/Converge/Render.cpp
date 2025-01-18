@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "../Shapes/Shapes.h"
 #include "Render.h"
-#include "Shapes/Shapes.h"
 
 extern int Winwidth;
 extern int Winheight;
@@ -56,14 +56,13 @@ void WindowSizeChange() {
     initPixels(pixels);
   }
 }
-
+// Out of bounds? General reset
 void ResetPixel(Pixel& Pix) {
   Pix.x = dis(gen);
   Pix.speed = dis_Num(gen);
   Uint8 newR = dis_Color(gen);
   Uint8 newG = dis_Color(gen);
   Uint8 newB = dis_Color(gen);
-
   if (Pix.Direction) {
     Pix.y = static_cast<float>(Winheight);
   } else {
@@ -75,7 +74,7 @@ void ResetPixel(Pixel& Pix) {
   Pix.b = newB;
 }
 
-void MainCall(SDL_Renderer* renderer) {
+void MainConvergeCall(SDL_Renderer* renderer) {
   static const float Decay = 3.0f;
   // Initialize the pixels
   if (pixels.empty()) {
@@ -87,13 +86,12 @@ void MainCall(SDL_Renderer* renderer) {
   for (auto& pixel : pixels) {
     float distanceFromCenter = std::abs(pixel.y - Winheight / 2);
     float slowFactor = std::exp(-distanceFromCenter / (Winheight / 2) * Decay);
-
+    // Chance to disappear if close to center
     if (pixel.y > Winheight / 2 - 45 && pixel.y < Winheight / 2 + 45 &&
         dis_Color(gen) < 10) {
       ResetPixel(pixel);
       continue;
     }
-
     // If at center
     if (pixel.y > Winheight / 2 - 12 && pixel.y < Winheight / 2 + 12) {
       ResetPixel(pixel);
