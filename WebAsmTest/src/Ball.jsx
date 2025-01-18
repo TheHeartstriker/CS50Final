@@ -22,7 +22,7 @@ function Ball() {
     width: window.innerWidth,
     height: window.innerHeight,
   });
-
+  //load wasm module also loads main function
   useEffect(() => {
     const fetchWasm = async () => {
       if (canvasRef.current && !wasm && !isLoaded.current) {
@@ -32,9 +32,8 @@ function Ball() {
       }
     };
     fetchWasm();
-    //    wasm?._setArguments(1500, 1500);
   }, [wasm]);
-
+  //Window size event listener
   useEffect(() => {
     window.addEventListener("resize", () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
@@ -44,14 +43,12 @@ function Ball() {
       window.removeEventListener("resize", () => {});
     };
   }, []);
-
+  //Set arguments for the wasm module
   useEffect(() => {
     if (wasm) {
       wasm._setArguments(window.innerHeight, window.innerWidth);
-      console.log("window.innerHeight: ", window.innerHeight);
-      console.log("window inner width: ", window.innerWidth);
     }
-  }, [windowSize]);
+  }, [windowSize, wasm]);
 
   return (
     <div>
