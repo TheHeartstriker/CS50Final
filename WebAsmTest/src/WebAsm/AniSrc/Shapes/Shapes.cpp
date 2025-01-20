@@ -1,5 +1,9 @@
 #include "Shapes.h"
 
+#include <SDL2/SDL.h>
+
+void InsideOrb(SDL_Renderer* renderer, int radius, int x, int y);
+
 void DrawPixel(SDL_Renderer* renderer, int x, int y, Uint8 r, Uint8 g, Uint8 b,
                Uint8 a, int size) {
   SDL_SetRenderDrawColor(renderer, r, g, b, a);
@@ -10,7 +14,6 @@ void DrawPixel(SDL_Renderer* renderer, int x, int y, Uint8 r, Uint8 g, Uint8 b,
 void ChoasOrb(SDL_Renderer* renderer, int radius, int cx, int cy) {
   // Set draw color to white
   SDL_SetRenderDrawColor(renderer, 250, 5, 5, 0);  // RGBA
-
   // Midpoint Circle Algorithm
   int x = radius;
   int y = 0;

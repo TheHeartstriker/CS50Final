@@ -13,12 +13,14 @@ extern int Winheight;
 int intialWinwidth = Winwidth;
 int intialWinheight = Winheight;
 
-std::random_device rd;
-std::mt19937 gen(rd());
-std::uniform_int_distribution<int> dis(0, Winwidth);
-std::uniform_real_distribution<float> dis_Num(0.3, 0.9);
-std::uniform_int_distribution<Uint8> dis_Color(0, 255);
+static std::random_device rd;
+static std::mt19937 gen(rd());
+static std::uniform_int_distribution<int> dis(0, Winwidth);
+static std::uniform_real_distribution<float> dis_Num(0.3, 0.9);
+static std::uniform_int_distribution<Uint8> dis_Color(0, 255);
 
+// Name space to free up global space
+namespace {
 // False means go down, true means go up
 struct Pixel {
   int x;
@@ -29,10 +31,11 @@ struct Pixel {
   float speed;
   bool Direction = true;
 };
+}  // namespace
 // Stores pixels data
 static std::vector<Pixel> pixels;
 // Creates a hundred instances of the Pixel struct
-void initPixels(std::vector<Pixel>& pixels) {
+static void initPixels(std::vector<Pixel>& pixels) {
   if (Winheight) {
     for (int i = 0; i < 60000; i++) {
       if (i % 2 == 0) {
@@ -47,7 +50,7 @@ void initPixels(std::vector<Pixel>& pixels) {
   }
 }
 // Instructions for window size change
-void WindowSizeChange() {
+static void WindowSizeChange() {
   if (Winwidth != intialWinwidth || Winheight != intialWinheight) {
     pixels.clear();
     intialWinwidth = Winwidth;
@@ -57,7 +60,7 @@ void WindowSizeChange() {
   }
 }
 // Out of bounds? General reset
-void ResetPixel(Pixel& Pix) {
+static void ResetPixel(Pixel& Pix) {
   Pix.x = dis(gen);
   Pix.speed = dis_Num(gen);
   Uint8 newR = dis_Color(gen);
@@ -105,10 +108,10 @@ void MainConvergeCall(SDL_Renderer* renderer) {
     // Up vs down fall logic
     if (pixel.Direction) {
       pixel.y -= pixel.speed / slowFactor;
-      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 2);
+      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 3);
     } else {
       pixel.y += pixel.speed / slowFactor;
-      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 2);
+      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 3);
     }
   }
 }
