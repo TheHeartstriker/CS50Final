@@ -37,7 +37,7 @@ static std::vector<Pixel> pixels;
 // Creates a hundred instances of the Pixel struct
 static void initPixels(std::vector<Pixel>& pixels) {
   if (Winheight) {
-    for (int i = 0; i < 60000; i++) {
+    for (int i = 0; i < 20000; i++) {
       if (i % 2 == 0) {
         pixels.push_back({dis(gen), 2.0f, dis_Color(gen), dis_Color(gen),
                           dis_Color(gen), dis_Num(gen), false});
@@ -90,7 +90,7 @@ void MainConvergeCall(SDL_Renderer* renderer) {
     float distanceFromCenter = std::abs(pixel.y - Winheight / 2);
     float slowFactor = std::exp(-distanceFromCenter / (Winheight / 2) * Decay);
     // Chance to disappear if close to center
-    if (pixel.y > Winheight / 2 - 45 && pixel.y < Winheight / 2 + 45 &&
+    if (pixel.y > Winheight / 2 - 65 && pixel.y < Winheight / 2 + 65 &&
         dis_Color(gen) < 10) {
       ResetPixel(pixel);
       continue;
@@ -108,10 +108,10 @@ void MainConvergeCall(SDL_Renderer* renderer) {
     // Up vs down fall logic
     if (pixel.Direction) {
       pixel.y -= pixel.speed / slowFactor;
-      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 3);
+      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 5);
     } else {
       pixel.y += pixel.speed / slowFactor;
-      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 3);
+      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 5);
     }
   }
 }
