@@ -37,7 +37,7 @@ static std::vector<Pixel> pixels;
 // Creates a hundred instances of the Pixel struct
 static void initPixels(std::vector<Pixel>& pixels) {
   if (Winheight) {
-    for (int i = 0; i < 20000; i++) {
+    for (int i = 0; i < 50000; i++) {
       if (i % 2 == 0) {
         pixels.push_back({dis(gen), 2.0f, dis_Color(gen), dis_Color(gen),
                           dis_Color(gen), dis_Num(gen), false});
