@@ -18,7 +18,7 @@ function Ball() {
   const [wasm, setWasm] = useState(null);
   const canvasRef = useRef(null);
   const isLoaded = useRef(false);
-  const [AniType, setAniType] = useState(2);
+  const [AniType, setAniType] = useState(1);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -49,11 +49,17 @@ function Ball() {
     if (wasm) {
       wasm._setArguments(window.innerHeight, window.innerWidth, AniType);
     }
-  }, [windowSize, wasm]);
+  }, [windowSize, wasm, AniType]);
 
   return (
     <div>
       <canvas ref={canvasRef} id="canvas"></canvas>
+      <button className="btn" onClick={() => setAniType(1)}>
+        Linear
+      </button>
+      <button className="btn" onClick={() => setAniType(2)}>
+        Quadratic
+      </button>
     </div>
   );
 }

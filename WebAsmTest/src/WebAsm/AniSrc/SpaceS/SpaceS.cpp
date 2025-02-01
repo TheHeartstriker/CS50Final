@@ -20,6 +20,7 @@ std::uniform_real_distribution<float> dis(0, Winwidth);
 std::uniform_int_distribution<Uint8> dis_Color(0, 255);
 std::uniform_real_distribution<float> speed_dis(-3, 3);
 std::uniform_real_distribution<float> Point_dis(0.4, 1.4);
+std::uniform_int_distribution<int> dis2(200, 800);
 //-3 to 3 but not 0
 static float NoZero() {
   int num = speed_dis(gen);
@@ -55,6 +56,9 @@ struct Point {
   std::vector<Point> Path;
   // Counter for the path
   float PathCounter = 0;
+  Uint8 r;
+  Uint8 g;
+  Uint8 b;
 };
 }  // namespace
 
@@ -69,7 +73,7 @@ void initPixels(std::vector<Pixel>& pixels, int radius, int cx, int cy) {
     std::uniform_real_distribution<float> radius_dist(
         0.0f, static_cast<float>(radius));
 
-    for (int i = 0; i < 5000; i++) {
+    for (int i = 0; i < 2500; i++) {
       float angle = angle_dist(gen);
       float r = radius_dist(gen);
       int x = (cx + r * cos(angle));
@@ -109,7 +113,7 @@ void initPoints(std::vector<Point>& points, int Count, int MidX, int MidY,
   std::vector<std::vector<Point>> path;
   // Create mutiple paths and push them to path
   for (int i = 0; i < Orbits; ++i) {
-    path.push_back(generateCircularPath(MidX, MidY, 200 + i * 50, 500));
+    path.push_back(generateCircularPath(MidX, MidY, dis2(gen), 1000));
   }
   for (int i = 0; i < Count; ++i) {
     Point point;
@@ -118,6 +122,9 @@ void initPoints(std::vector<Point>& points, int Count, int MidX, int MidY,
     point.Path = path[i];
     point.PathCounter = 0;
     point.speed = Point_dis(gen);
+    point.r = dis_Color(gen);
+    point.g = dis_Color(gen);
+    point.b = dis_Color(gen);
     points.push_back(point);
   }
 }
@@ -131,7 +138,7 @@ void DrawPoints(SDL_Renderer* renderer, std::vector<Point>& points) {
     int index = static_cast<int>(point.PathCounter);
     point.x = point.Path[index].x;
     point.y = point.Path[index].y;
-    DrawPixel(renderer, point.x, point.y, 255, 255, 255, 0, 5);
+    DrawPixel(renderer, point.x, point.y, point.r, point.g, point.b, 0, 5);
   }
 }
 
@@ -162,7 +169,7 @@ void CheckWindowChange() {
     LocatinY = Winheight / 2;
     initPixels(pixels, radius, LocatinX, LocatinY);
     points.clear();
-    initPoints(points, 3, LocatinX, LocatinY, 3);
+    initPoints(points, 5, LocatinX, LocatinY, 5);
   }
 }
 // Main render call
@@ -188,8 +195,8 @@ void MainSpacesCall(SDL_Renderer* renderer) {
       float num2 = NoZero();
       pixel.x += num1;
       pixel.y += num2;
-      pixel.x += pixel.speedX / 2;
-      pixel.y += pixel.speedY / 2;
+      pixel.x += pixel.speedX;
+      pixel.y += pixel.speedY;
     }
     DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 5);
   }
