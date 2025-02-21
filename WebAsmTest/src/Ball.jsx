@@ -55,10 +55,10 @@ function Ball() {
     <div>
       <canvas ref={canvasRef} id="canvas"></canvas>
       <button className="btn" onClick={() => setAniType(1)}>
-        Linear
+        Converge
       </button>
       <button className="btn" onClick={() => setAniType(2)}>
-        Quadratic
+        Orbit
       </button>
     </div>
   );
