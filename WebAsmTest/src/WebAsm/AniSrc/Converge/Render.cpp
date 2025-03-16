@@ -37,7 +37,7 @@ static std::vector<Pixel> pixels;
 // Creates a hundred instances of the Pixel struct
 static void initPixels(std::vector<Pixel>& pixels) {
   if (Winheight) {
-    for (int i = 0; i < 50000; i++) {
+    for (int i = 0; i < 40000; i++) {
       if (i % 2 == 0) {
         pixels.push_back({dis(gen), 2.0f, dis_Color(gen), dis_Color(gen),
                           dis_Color(gen), dis_Num(gen), false});
@@ -108,10 +108,10 @@ void MainConvergeCall(SDL_Renderer* renderer) {
     // Up vs down fall logic
     if (pixel.Direction) {
       pixel.y -= pixel.speed / slowFactor;
-      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 5);
+      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 3);
     } else {
       pixel.y += pixel.speed / slowFactor;
-      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 5);
+      DrawPixel(renderer, pixel.x, pixel.y, pixel.r, pixel.g, pixel.b, 0, 3);
     }
   }
 }
